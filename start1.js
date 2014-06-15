@@ -7,10 +7,17 @@
 今後自由に背景画像として横に書き足していってよい
 */
 
-var jimen_haba = 0;
+var jimen_haba = 0;//地面画像の横幅px値
 
-var arukinum = 1;
+var arukinum = 1;//歩きモーションのステップ数
 var jimen_num = jimen_haba * -1 / 2 ;//地面画像の表示pos 元画像の-1/2値
+
+var sora_step = 0;//空の色変化のステップ数
+
+    var sora_colorcode = [
+        '#EFF5FB','#E0F2F7','#CEECF5'    
+    ];
+
 
 
 function test2()
@@ -22,7 +29,26 @@ setInterval("aruki()",350);
 
 setInterval("jimen_nagare()",20);
 
+setInterval("sora_iro()",6000);
+
+
 }//function メイン関数
+
+
+function sora_iro()
+{
+
+sora_step = sora_step + 1;
+
+if(sora_step > 23)
+{sora_step = 1;}
+
+var ele = document.getElementById("div_sora");
+ele.style.backgroundColor = sora_colorcode[sora_step];
+
+}//function sora_iro()
+
+
 
 
 function jimen_nagare()
