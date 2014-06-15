@@ -15,7 +15,11 @@ var jimen_num = jimen_haba * -1 / 2 ;//地面画像の表示pos 元画像の-1/2
 var sora_step = 0;//空の色変化のステップ数
 
     var sora_colorcode = [
-        '#EFF5FB','#E0F2F7','#CEECF5'    
+        '#E0F2F7','#CEECF5','#A9E2F3','#81DAF5','#58D3F7',   
+        '#2ECCFA','#00BFFF','#01A9DB','#0174DF','#013ADF',  
+        '#045FB4','#DF7401','#B43104','#2A0A1B','#2A0A22',  
+        '#220A29','#120A2A','#0A122A','#0A2229','#0B2F3A', 
+        '#1C1C1C','#424242','#848484'
     ];
 
 
@@ -29,7 +33,7 @@ setInterval("aruki()",350);
 
 setInterval("jimen_nagare()",20);
 
-setInterval("sora_iro()",6000);
+setInterval("sora_iro()",1000);
 
 
 }//function メイン関数
@@ -41,7 +45,7 @@ function sora_iro()
 sora_step = sora_step + 1;
 
 if(sora_step > 23)
-{sora_step = 1;}
+{sora_step = 0;}
 
 var ele = document.getElementById("div_sora");
 ele.style.backgroundColor = sora_colorcode[sora_step];
