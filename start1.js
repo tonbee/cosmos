@@ -11,6 +11,12 @@ var jimen_haba = 0;//地面画像の横幅px値
 var enkei_haba = 0;//遠景画像の横幅px値
 
 
+
+var sora_colorR = 255;
+var sora_colorG = 255;
+var sora_colorB = 255;
+
+
 var arukinum = 1;//歩きモーションのステップ数
 var jimen_num = jimen_haba * -1 / 2 ;//地面画像の表示pos 元画像の-1/2値
 var enkei_num = enkei_haba * -1 / 2 ;//遠景画像の表示pos 元画像の-1/2値
@@ -38,7 +44,7 @@ function test2()//メインループ
 
 	setInterval("enkei_nagare()",200);
 
-	setInterval("sora_iro()",1000);
+	setInterval("sora_iro()",100);
 
 
 }//function メイン関数
@@ -46,12 +52,95 @@ function test2()//メインループ
 
 function sora_iro()
 {
+
+/*
+空色を配列に格納するやり方では不自然な感じする。
+
+R255:G255:B255
+R0:G255:B255
+R0:G0:B255
+R0:G0:B50
+R80:G80:B80
+R100:G100:B100
+R255:G255:B255
+
+time
+1   255 255 255
+236  20   255  255
+
+237   20  254  255
+471   20   20  255
+
+472   20  20   254
+706   20  20   20
+
+707  100 100 100
+862   255  255  255
+
+
+の順でカラーコードを遷移させれば、空の色が滑らかに変化させれるのでないか
+
+sora_colorR,sora_colorG,sora_colorBで表現する。
+sora_colorR.toString(16)で16進数に変える
+
+
+*/
+
+
 	sora_step = sora_step + 1;
 
-	if(sora_step > 23){sora_step = 0;}
+if( 1 <= sora_step && sora_step <= 236)
+{   sora_colorR = sora_colorR - 1;}
+
+  
+  if( 237 <= sora_step  && sora_step <= 471)
+{   sora_colorG = sora_colorG - 1;}
+  
+    if( 472 <= sora_step  && sora_step <= 706)
+{   sora_colorB = sora_colorB - 1;}
+  
+
+
+      if( 707 <= sora_step  && sora_step <= 800)
+{       sora_colorR = sora_colorR + 2;
+     sora_colorG = sora_colorG + 2;   
+     sora_colorB = sora_colorB + 2; 
+
+     }
+     
+           if( 801 <= sora_step  && sora_step <= 811)
+{       sora_colorR = sora_colorR + 5;
+     sora_colorG = sora_colorG +5;   
+     sora_colorB = sora_colorB + 5; 
+
+     }
+     
+     
+     
+         if(sora_step >=812)
+{           sora_colorR = 255;
+    sora_colorG = 255;
+    sora_colorB = 255;
+    sora_step = 0;
+    } 
+    
+console.log(sora_step,sora_colorR,sora_colorB,sora_colorG);
+
+	
+	
+
+var r16 = sora_colorR.toString(16);
+var g16 = sora_colorG.toString(16);
+var b16 = sora_colorB.toString(16);
+
+var sora_color_code = "#" + r16 + "";
+sora_color_code = sora_color_code +  g16 + "";
+sora_color_code = sora_color_code +  b16 + "";
+
+
 
 	var ele = document.getElementById("div_sora");
-	ele.style.backgroundColor = sora_colorcode[sora_step];
+	ele.style.backgroundColor = sora_color_code;
 
 }//function sora_iro()
 
