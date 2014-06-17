@@ -24,6 +24,8 @@ var enkei_num = enkei_haba * -1 / 2 ;//遠景画像の表示pos 元画像の-1/2
 var sora_step = 0;//空の色変化のステップ数
 
 
+
+
 function test2()//メインループ
 {
 
@@ -36,9 +38,43 @@ function test2()//メインループ
 	setInterval("enkei_nagare()",200);
 
 	setInterval("sora_iro()",100);
+	
+	setInterval("taiyou_hontai()",100);
 
 
 }//function メイン関数
+
+
+
+function taiyou_hontai()
+{
+
+  console.log(sora_step);
+  
+  var ta_x = sora_step * 5 / 6;
+  
+  var ta_y = (ta_x * ta_x * 14 / 3125 ) - ( 168 * ta_x / 125) + (104/5) ;
+
+ta_y = Math.floor(ta_y);
+
+
+	var ele = document.getElementById("img_taiyou");
+	ele.style.position = 'absolute'; 
+	ele.style.left = ta_x; 
+	ele.style.top  = ta_y; 
+
+
+
+}//function taiyou_hontai()
+
+
+
+
+
+
+
+
+
 
 
 function sora_iro()
@@ -254,8 +290,8 @@ function shoki_haichi()
 	//太陽を初期配置
 	var ele = document.getElementById("img_taiyou");
 	ele.style.position = 'absolute'; 
-	ele.style.left = '150px'; 
-	ele.style.top  = '-80px'; 
+	ele.style.left = '-100px'; 
+	ele.style.top  = '200px'; 
 
 	
 	
