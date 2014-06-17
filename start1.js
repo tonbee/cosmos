@@ -26,6 +26,53 @@ var sora_step = 0;//空の色変化のステップ数
 
 
 
+
+
+function draw_taiyou() {
+  /* canvas要素のノードオブジェクト */
+  var canvas = document.getElementById('canvassample');
+  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
+  if ( ! canvas || ! canvas.getContext ) {
+    return false;
+  }
+  
+  
+   /* 2Dコンテキスト */
+  var ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.clearRect(0, 0, 640, 480);
+  ctx.stroke();
+  
+  
+  
+  var ta_x = sora_step * 5 / 6 + 100;
+  
+  var ta_y = (ta_x * 700 ) - ( ta_x * ta_x ) - (60000) ;
+  ta_y = Math.ceil(ta_y);
+  ta_y = 300- Math.sqrt(ta_y) ;
+  
+    ta_y = Math.round(ta_y);
+    console.log(sora_step,ta_x,ta_y);
+    ta_x = Math.round(ta_x);
+  
+
+
+
+  
+  
+  /* 2Dコンテキスト */
+  var ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.arc(ta_x, ta_y, 35, 0, Math.PI*2, false);
+  ctx.stroke();
+  
+  
+}//draw
+
+
+
+
+
 function test2()//メインループ
 {
 
@@ -39,38 +86,34 @@ function test2()//メインループ
 
 	setInterval("sora_iro()",100);
 	
-	setInterval("taiyou_hontai()",100);
+	setInterval("draw_taiyou()",100);
 
 
 }//function メイン関数
 
 
-
+/*
 function taiyou_hontai()
 {
-
   console.log(sora_step);
-  
   var ta_x = sora_step * 5 / 6;
-  
   var ta_y = (ta_x * ta_x * 14 / 3125 ) - ( 168 * ta_x / 125) + (104/5) ;
-
 ta_y = Math.floor(ta_y);
-
-
 	var ele = document.getElementById("img_taiyou");
 	ele.style.position = 'absolute'; 
 	ele.style.left = ta_x; 
 	ele.style.top  = ta_y; 
+}//function taiyou_hontai()
+
+*/
+
+function taiyou_hontai()
+{
+
 
 
 
 }//function taiyou_hontai()
-
-
-
-
-
 
 
 
