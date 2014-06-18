@@ -1,32 +1,35 @@
 ﻿
 
 /*
-地面画像はタテ480px、横任意幅で作る。
+背景画像はタテ480px、横任意幅で作る。
 同じ背景を横に2連続けたものを用意すれば横幅は適当でも
 プログラム側で横幅を検出してループさせるため、
 今後自由に背景画像として横に書き足していってよい
 */
 
-var jimen_haba = 0;//地面画像の横幅px値
-var enkei_haba = 0;//遠景画像の横幅px値
+
+//以下、グローバル変数置き場
+
+	var arukinum = 1;//歩きモーションのステップ数
+
+	var sora_colorR = 255;
+	var sora_colorG = 255;
+	var sora_colorB = 255;
+
+	var jimen_haba = 0;//地面画像の横幅px値
+	var enkei_haba = 0;//遠景画像の横幅px値
+
+	var jimen_num = jimen_haba * -1 / 2 ;//地面画像の表示pos 元画像の-1/2値
+	var enkei_num = enkei_haba * -1 / 2 ;//遠景画像の表示pos 元画像の-1/2値
+
+	var time_count = 0;
+	//100ミリ秒カウンタ。空色変化、太陽周期などメインループ全体の共用タイムカウントとして援用している
+	//空色変化のファンクション内でカウンタ+を行っている。
+
+//以上、グローバル変数置き場
 
 
-
-var sora_colorR = 255;
-var sora_colorG = 255;
-var sora_colorB = 255;
-
-
-var arukinum = 1;//歩きモーションのステップ数
-var jimen_num = jimen_haba * -1 / 2 ;//地面画像の表示pos 元画像の-1/2値
-var enkei_num = enkei_haba * -1 / 2 ;//遠景画像の表示pos 元画像の-1/2値
-
-var sora_step = 0;//空の色変化のステップ数
-
-
-
-
-
+//以下、CANVAS記述
 
 function draw_taiyou() {
   /* canvas要素のノードオブジェクト */
@@ -37,40 +40,62 @@ function draw_taiyou() {
   }
   
   
-   /* 2Dコンテキスト */
+   /*画面をCLS */
   var ctx = canvas.getContext('2d');
   ctx.beginPath();
   ctx.clearRect(0, 0, 640, 480);
   ctx.stroke();
   
   
+	/*太陽の中心座標を計算 */
+	var ta_x = time_count * 5 / 6 + 100;//末項の+100は太陽の初期表示ｘ座標。これがないと√が虚数になる
+		  
+	var ta_y = (ta_x * 700 ) - ( ta_x * ta_x ) - (60000) ;//円の一般公式。計算過程はカンバスメモ
+	ta_y = Math.ceil(ta_y);
+	ta_y = 300- Math.sqrt(ta_y) ;
+	  
+	ta_y = Math.round(ta_y);
+	ta_x = Math.round(ta_x);
   
-  var ta_x = sora_step * 5 / 6 + 100;
-  
-  var ta_y = (ta_x * 700 ) - ( ta_x * ta_x ) - (60000) ;
-  ta_y = Math.ceil(ta_y);
-  ta_y = 300- Math.sqrt(ta_y) ;
-  
-    ta_y = Math.round(ta_y);
-    console.log(sora_step,ta_x,ta_y);
-    ta_x = Math.round(ta_x);
-  
-
-
-
-  
-  
-  /* 2Dコンテキスト */
+   
+  /* 太陽描画 */
   var ctx = canvas.getContext('2d');
+
   ctx.beginPath();
-  ctx.arc(ta_x, ta_y, 35, 0, Math.PI*2, false);
+  
+
+  
+  /*
+  ctx.fillStyle = 'rgba(255, 255, 255,0.5)';
+    ctx.strokeStyle = 'rgba(255, 255, 255,0.1)';
+  
+    ctx.arc(ta_x, ta_y, 30, 0, Math.PI*2, false);
   ctx.stroke();
+  ctx.fill();
+  
+  */
+  
+      ctx.strokeStyle = 'rgba(255, 255, 255,0)';
+   /* グラデーション領域をセット */
+  var grad  = ctx.createRadialGradient(ta_x,ta_y,1,ta_x,ta_y,40); 
+  
+  /* グラデーション終点のオフセットと色をセット */
+  grad.addColorStop(0.3,'white');      // 赤
+  
+  var edgecolor1 = "rgba("+sora_colorR+", "+sora_colorG+", "+sora_colorB+",0.6)";
+grad.addColorStop(1,edgecolor1); 
+  /* グラデーションをfillStyleプロパティにセット */
+  ctx.fillStyle = grad;  
+  
+  ctx.arc(ta_x, ta_y,40, 0, Math.PI*2, false);
+  ctx.stroke();
+  ctx.fill();
   
   
 }//draw
 
 
-
+//以上、CANVAS記述
 
 
 function test2()//メインループ
@@ -92,164 +117,75 @@ function test2()//メインループ
 }//function メイン関数
 
 
-/*
-function taiyou_hontai()
-{
-  console.log(sora_step);
-  var ta_x = sora_step * 5 / 6;
-  var ta_y = (ta_x * ta_x * 14 / 3125 ) - ( 168 * ta_x / 125) + (104/5) ;
-ta_y = Math.floor(ta_y);
-	var ele = document.getElementById("img_taiyou");
-	ele.style.position = 'absolute'; 
-	ele.style.left = ta_x; 
-	ele.style.top  = ta_y; 
-}//function taiyou_hontai()
-
-*/
-
-function taiyou_hontai()
-{
-
-
-
-
-}//function taiyou_hontai()
-
-
-
 
 
 
 function sora_iro()
 {
+	/*
+	2日目にカラーコードを配列に格納して変化させる方法を実装したが、
+	滑らかでなかった。
+	RGB値の数値変化なら無段階変化を実現できる。
 
-/*
-空色を配列に格納するやり方では不自然な感じする。
+	R255:G255:B255
+	R20:G255:B255
+	R20:G20:B255
+	R20:G20:B20
+	R100:G100:B100
+	R255:G255:B255
+	の順でカラーコードを遷移させる。
 
-R255:G255:B255
-R20:G255:B255
-R20:G20:B255
-R20:G20:B20
-R100:G100:B100
-R255:G255:B255
-の順でカラーコードを遷移させれば、空の色が滑らかに変化させれるのでないか
+	※.toString(16)で10進数を16進数に変換するのだが、
+	このとき対象となる10進数が16以下だと8などとなってしまい、
+	カラーコードとしての用途である08にならない。
+	それだけのために0を足すのも面倒なので、RGB値の下限を0ではなく20にする
 
-※.toString(16)で10進数を16進数に変換するのだが、
-このとき対象となる10進数が16以下だと8などとなってしまい、
-カラーコードとしての用途である08にならない。
-ので、RGB値の下限を0ではなく20にする
+	sora_colorR,sora_colorG,sora_colorBで表現する。
+	sora_colorR.toString(16)で16進数に変える
+	*/
 
-sora_colorR,sora_colorG,sora_colorBで表現する。
-sora_colorR.toString(16)で16進数に変える
+	time_count = time_count + 1;
+	//朝～午前
+	if( 1 <= time_count && time_count <= 236)
+	{   sora_colorR = sora_colorR - 1;}
+	  
+	//日中  
+	if( 237 <= time_count  && time_count <= 471)
+	{   sora_colorG = sora_colorG - 1;}
 
+	//午後～夜
+	if( 472 <= time_count  && time_count <= 706)
+	{   sora_colorB = sora_colorB - 1;}
+	  
+	//夜～明け方  
+	if( 707 <= time_count  && time_count <= 800)
+	{    sora_colorR = sora_colorR + 2;
+	     sora_colorG = sora_colorG + 2;   
+	     sora_colorB = sora_colorB + 2; 
+	     }
+	     
+	//夜明け間際     
+	if( 801 <= time_count  && time_count <= 811)
+	{    sora_colorR = sora_colorR + 5;
+	     sora_colorG = sora_colorG +5;   
+	     sora_colorB = sora_colorB + 5; 
+	     }
+	     
+	//朝に戻る     
+	if(time_count >=812)
+	{   sora_colorR = 255;
+	    sora_colorG = 255;
+	    sora_colorB = 255;
+	    time_count = 0;
+	    } 
 
-*/
+	var r16 = sora_colorR.toString(16);
+	var g16 = sora_colorG.toString(16);
+	var b16 = sora_colorB.toString(16);
 
-sora_step = sora_step + 1;
-//朝～午前
-if( 1 <= sora_step && sora_step <= 236)
-{   sora_colorR = sora_colorR - 1;}
-  
-//日中  
-if( 237 <= sora_step  && sora_step <= 471)
-{   sora_colorG = sora_colorG - 1;}
-
-//午後～夜
-if( 472 <= sora_step  && sora_step <= 706)
-{   sora_colorB = sora_colorB - 1;}
-  
-//夜～明け方  
-if( 707 <= sora_step  && sora_step <= 800)
-{    sora_colorR = sora_colorR + 2;
-     sora_colorG = sora_colorG + 2;   
-     sora_colorB = sora_colorB + 2; 
-     }
-     
-//夜明け間際     
-if( 801 <= sora_step  && sora_step <= 811)
-{    sora_colorR = sora_colorR + 5;
-     sora_colorG = sora_colorG +5;   
-     sora_colorB = sora_colorB + 5; 
-     }
-     
-if(sora_step >=812)
-{   sora_colorR = 255;
-    sora_colorG = 255;
-    sora_colorB = 255;
-    sora_step = 0;
-    } 
-    
-/*
-このことから、太陽は1で日の出、600で日没くらいのスパンで動くと予想される。
-仮の太陽画像では、画像サイズに対して太陽の中心座標が、ｘ165、ｙ120
-辺りにある。これは、フォトショップの情報ボックスで分かる。
-
-1）初期配置で太陽の円が地平線にくるように調節する。
-
-仮の処置として、一旦、遠景画像を非表示にする。
-htmlのCSS部分でtopを0から1000にした。
-
-2）600タイムカウント（100ミリ秒単位）で日没するような座標軌道を計算し、動かす。
-太陽仮画像の
-日出位置、x-100:y200（これは画像によって変わる）
-日没位置、x400:y200
-南中位置、x150:y-80
-
-ここからは数学だ。
-上記3点を通る2次曲線の方程式を求めなさい。
-
-y = ax^2 + bx + c 
-
-200 = 10000a - 100b + c
-200 = 160000a + 400b + c
--80 = 22500a + 150b + c
-
-10000a - 100b = 160000a + 400b
--500b = 150000a
-b = -300a
-
-200 - 10000a + 100b = -80 - 22500a - 150b
-280 + 12500a = -250b
-
-280 + 12500a = 75000a
-62500a = 280
- 
-a = 280/62500 = 28/6250 = 14/3125
-b = -300*14/3125 = -60*14/625 = -12*14/125 = -168/125
-
-200 = 10000 * 14/3125 - 100 * -168/125 + c
-200 = 2000 * 14/ 625 + 20 * 168 / 25 + c
-200 = 400 * 14 / 125 + 4*168 / 5 + c
-200 = 80 * 14/25 + 672/5 + c
-c = 200 - 16*14/5 - 672/5
-= 200 - ( 224 + 672) / 5
-= 200 - 896/5 = 1000/5 - 896/5 = 104/5
-
-∴y =  14/3125x^2 -168/125x + 104/5
-
-ｘ座標は-100から+400まで動く
-タイムラインは600かけて動く
-
-ｘ座標が-100から始まって、タイムカウントが+1する度に、
-ｘ座標が+5/6されて、対応するｙが上記関数で求められる
-
-
-
-
-
-3）CSSではみでた部分をマスクする。
-
-*/
-
-var r16 = sora_colorR.toString(16);
-var g16 = sora_colorG.toString(16);
-var b16 = sora_colorB.toString(16);
-
-var sora_color_code = "#" + r16 + "";
-sora_color_code = sora_color_code +  g16 + "";
-sora_color_code = sora_color_code +  b16 + "";
-
-
+	var sora_color_code = "#" + r16 + "";
+	sora_color_code = sora_color_code +  g16 + "";
+	sora_color_code = sora_color_code +  b16 + "";
 
 	var ele = document.getElementById("div_sora");
 	ele.style.backgroundColor = sora_color_code;
@@ -344,7 +280,77 @@ function shoki_haichi()
 
 
 
+	/*
+	スクラップ置き場
+	以下は、太陽をpng画像で用意して二次曲線上を動かすもの。
+	これはこれで動いたが、これだと画像自体が変化していくアニメーションを実現できない。
+	そこでCANVASで形状自体を計算描画させる方向に転換した。
+	function taiyou_hontai()
+	{
+	  var ta_x = time_count * 5 / 6;
+	  var ta_y = (ta_x * ta_x * 14 / 3125 ) - ( 168 * ta_x / 125) + (104/5) ;
+	ta_y = Math.floor(ta_y);
+		var ele = document.getElementById("img_taiyou");
+		ele.style.position = 'absolute'; 
+		ele.style.left = ta_x; 
+		ele.style.top  = ta_y; 
+	}//function taiyou_hontai()
+
+	*/
 
 
 
+	/*
+	スクラップ置き場
+	太陽画像を二次曲線に沿って動かす計画。今は無用になった。
 
+	600タイムカウント（100ミリ秒単位）で日没するような座標軌道を計算し、動かす。
+	太陽仮画像の
+	日出位置、x-100:y200（これは画像によって変わる）
+	日没位置、x400:y200
+	南中位置、x150:y-80
+
+	上記3点を通る2次曲線の方程式を求めなさい。
+
+	y = ax^2 + bx + c 
+
+	200 = 10000a - 100b + c
+	200 = 160000a + 400b + c
+	-80 = 22500a + 150b + c
+
+	10000a - 100b = 160000a + 400b
+	-500b = 150000a
+	b = -300a
+
+	200 - 10000a + 100b = -80 - 22500a - 150b
+	280 + 12500a = -250b
+
+	280 + 12500a = 75000a
+	62500a = 280
+	 
+	a = 280/62500 = 28/6250 = 14/3125
+	b = -300*14/3125 = -60*14/625 = -12*14/125 = -168/125
+
+	200 = 10000 * 14/3125 - 100 * -168/125 + c
+	200 = 2000 * 14/ 625 + 20 * 168 / 25 + c
+	c = 200 - 16*14/5 - 672/5
+	= 200 - 896/5 = 1000/5 - 896/5 = 104/5
+
+	∴y =  14/3125x^2 -168/125x + 104/5
+
+	ｘ座標は-100から+400まで動く
+	タイムラインは600かけて動く
+
+	ｘ座標が-100から始まって、タイムカウントが+1する度に、
+	ｘ座標が+5/6されて、対応するｙが上記関数で求められる
+
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
