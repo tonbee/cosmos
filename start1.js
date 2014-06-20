@@ -48,11 +48,11 @@ function draw_taiyou() {
     ctx.fill();
   
 	/*太陽の中心座標を計算 */
-	var ta_x = time_count * 5 / 6 + 143;//末項の+100は太陽の初期表示ｘ座標。これがないと√が虚数になる
+	var ta_x = time_count * 5 / 6 + 100;//末項の+100は太陽の初期表示ｘ座標。これがないと√が虚数になる
 		  
-	var rootinto = (ta_x * 640 ) - ( ta_x * ta_x ) - (39900) ;//円の一般公式。計算過程はカンバスメモ
+	var rootinto = (ta_x * 700 ) - ( ta_x * ta_x ) - (60000) ;//円の一般公式。計算過程はカンバスメモ
 	rootinto = Math.ceil(rootinto);
-	var ta_y =104- Math.sqrt(rootinto) ;
+	var ta_y =300- Math.sqrt(rootinto) ;
 	  
 	ta_y = Math.round(ta_y);
 	ta_x = Math.round(ta_x);
@@ -83,16 +83,86 @@ function draw_taiyou() {
 	ctx.fill();//「fillStyleで塗りつぶせ」	
 	
 	
+
 	
-	
-	
-	/* 光線描画 */
+	//光線描画
 	var ctx = canvas.getContext('2d');
 	ctx.beginPath();
 	  
-	ctx.strokeStyle = 'rgba(0, 0, 0,1)'; //図形の輪郭線を透明にしろ
-	     
-/*
+	ctx.strokeStyle = 'rgba(255, 255, 255,0)'; //図形の輪郭線を透明にしろ
+
+var kousen_nagasa = ta_y/2;
+	
+    ctx.moveTo(ta_x-2,ta_y-2);
+    
+    
+    ctx.lineTo(ta_x+2,ta_y+2);
+     ctx.lineTo(ta_x+kousen_nagasa,ta_y-kousen_nagasa);
+     
+      ctx.closePath();
+     
+     
+       ctx.moveTo(ta_x-2,ta_y-2);
+    
+    
+    ctx.lineTo(ta_x+2,ta_y+2);
+     ctx.lineTo(ta_x-kousen_nagasa,ta_y+kousen_nagasa);
+     
+      ctx.closePath();  
+      
+        ctx.moveTo(ta_x+2,ta_y-2);
+    
+    
+    ctx.lineTo(ta_x-2,ta_y+2);
+     ctx.lineTo(ta_x+kousen_nagasa,ta_y+kousen_nagasa);
+     
+      ctx.closePath();  
+     
+           ctx.moveTo(ta_x-2,ta_y+2);
+    
+    
+    ctx.lineTo(ta_x+2,ta_y-2);
+     ctx.lineTo(ta_x-kousen_nagasa,ta_y-kousen_nagasa);
+     
+      ctx.closePath();  
+      
+      
+      
+      
+    	   
+
+		// グラデーション領域をセット
+		var grad  = ctx.createRadialGradient(ta_x,ta_y,1,ta_x,ta_y,200); //半径1の円から40の円の領域でグラデしろ
+		  
+		// グラデーション終点のオフセットと色をセット 
+		grad.addColorStop(0.3,'white');      // グラデの中心色。「白から」
+		  
+		var edgecolor1 = "rgba("+sora_colorR+", "+sora_colorG+", "+sora_colorB+",0.6)";// 「空色にグラデしろ」RGB値を指定するときは一旦変数を経由
+		grad.addColorStop(1,edgecolor1); 
+
+		// グラデーションをfillStyleプロパティにセット
+		ctx.fillStyle = grad;  
+		
+ 
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       ctx.stroke();
+              ctx.fill();
+      
+	     /*
+
 		// グラデーション領域をセット
 		var grad  = ctx.createRadialGradient(ta_x,ta_y,1,ta_x,ta_y,40); //半径1の円から40の円の領域でグラデしろ
 		  
@@ -105,19 +175,19 @@ function draw_taiyou() {
 		// グラデーションをfillStyleプロパティにセット
 		ctx.fillStyle = grad;  
 		
-		*/
-/* 45°をラジアンに変換 */
+*/	
+		
+/*		
+//45°をラジアンに変換 
 var rad = 45 * Math.PI / 180;
-/* 右に45°回転する変換マトリックスを定義 */
+//右に45°回転する変換マトリックスを定義 
 ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), 0, 0 );
-/* 図形を描画 */	  
+// 図形を描画	  
 	  ctx.rect(ta_x, ta_y, 80, 5);
 	  
+*/
+	
 
-	
-	ctx.stroke();//「strokeStyleでかけ」
-	ctx.fill();//「fillStyleで塗りつぶせ」
-	
 // このままだと、太陽軌道自体が画面左上に対して45度回転してしまう	
 
 	
