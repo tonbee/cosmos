@@ -91,13 +91,20 @@ function draw_taiyou() {
 	  
 	ctx.strokeStyle = 'rgba(255, 255, 255,0)'; //図形の輪郭線を透明にしろ
 
-var kousen_nagasa = ta_y/2;
+var kousen_nagasa = (400 - ta_x)* (ta_x - 100);
+var kousen_nagasa_abs = Math.abs(kousen_nagasa);
+
+kousen_nagasa = kousen_nagasa + kousen_nagasa_abs ;
+kousen_nagasa = kousen_nagasa / 450 ;
+
+	
+	console.log(ta_x,kousen_nagasa)
 	
     ctx.moveTo(ta_x-2,ta_y-2);
     
     
     ctx.lineTo(ta_x+2,ta_y+2);
-     ctx.lineTo(ta_x+kousen_nagasa,ta_y-kousen_nagasa);
+     ctx.lineTo(ta_x+kousen_nagasa*0.6,ta_y-kousen_nagasa*0.6);
      
       ctx.closePath();
      
@@ -106,7 +113,7 @@ var kousen_nagasa = ta_y/2;
     
     
     ctx.lineTo(ta_x+2,ta_y+2);
-     ctx.lineTo(ta_x-kousen_nagasa,ta_y+kousen_nagasa);
+     ctx.lineTo(ta_x-kousen_nagasa*0.6,ta_y+kousen_nagasa*0.6);
      
       ctx.closePath();  
       
@@ -114,7 +121,7 @@ var kousen_nagasa = ta_y/2;
     
     
     ctx.lineTo(ta_x-2,ta_y+2);
-     ctx.lineTo(ta_x+kousen_nagasa,ta_y+kousen_nagasa);
+     ctx.lineTo(ta_x+kousen_nagasa*1.8,ta_y+kousen_nagasa*1.8);
      
       ctx.closePath();  
      
@@ -122,7 +129,7 @@ var kousen_nagasa = ta_y/2;
     
     
     ctx.lineTo(ta_x+2,ta_y-2);
-     ctx.lineTo(ta_x-kousen_nagasa,ta_y-kousen_nagasa);
+     ctx.lineTo(ta_x-kousen_nagasa*1.8,ta_y-kousen_nagasa*1.8);
      
       ctx.closePath();  
       
