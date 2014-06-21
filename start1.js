@@ -69,6 +69,34 @@ function draw_taiyou() {
 		  
 		/* グラデーション終点のオフセットと色をセット */
 		grad.addColorStop(0.3,'white');      // グラデの中心色。「白から」
+		
+		
+		
+		var taiyou_colorR =  255;
+				var taiyou_colorG =  255;
+						var taiyou_colorB =  255;
+		
+		if( time_count >= 400 && time_count <= 446){
+		
+			taiyou_colorB =  taiyou_colorB - 5;
+			taiyou_colorG =  taiyou_colorG - 1;
+		
+			var edgecolor2 = "rgba("+taiyou_colorR+", "+taiyou_colorG+", "+taiyou_colorB+",1)";// 「空色にグラデしろ」RGB値を指定するときは一旦変数を経由
+	
+		
+			grad.addColorStop(0.3,edgecolor2); }
+			
+			if( time_count >= 447 ){
+			
+			
+				grad.addColorStop(0.3,'orange');  
+					taiyou_colorR =  255;
+			taiyou_colorG =  255;
+					taiyou_colorB =  255;
+				
+			
+			}		
+
 		  
 		var edgecolor1 = "rgba("+sora_colorR+", "+sora_colorG+", "+sora_colorB+",0.6)";// 「空色にグラデしろ」RGB値を指定するときは一旦変数を経由
 		grad.addColorStop(1,edgecolor1); 
@@ -91,48 +119,70 @@ function draw_taiyou() {
 	  
 	ctx.strokeStyle = 'rgba(255, 255, 255,0)'; //図形の輪郭線を透明にしろ
 
-var kousen_nagasa = (400 - ta_x)* (ta_x - 100);
-var kousen_nagasa_abs = Math.abs(kousen_nagasa);
 
-kousen_nagasa = kousen_nagasa + kousen_nagasa_abs ;
-kousen_nagasa = kousen_nagasa / 450 ;
+//光線の長さ変数
+	var kousen_nagasa = (400 - ta_x)* (ta_x - 100);
+	var kousen_nagasa_abs = Math.abs(kousen_nagasa);
+
+	kousen_nagasa = kousen_nagasa + kousen_nagasa_abs ;
+	kousen_nagasa = kousen_nagasa / 450 ;
 
 	
-	console.log(ta_x,kousen_nagasa)
-	
+//多角形による光線描画
+
+    //右横	
     ctx.moveTo(ta_x-2,ta_y-2);
-    
-    
     ctx.lineTo(ta_x+2,ta_y+2);
-     ctx.lineTo(ta_x+kousen_nagasa*0.6,ta_y-kousen_nagasa*0.6);
+    ctx.lineTo(ta_x+kousen_nagasa*0.6,ta_y-kousen_nagasa*0.6);
+    ctx.closePath();
      
-      ctx.closePath();
-     
-     
-       ctx.moveTo(ta_x-2,ta_y-2);
-    
-    
+    //左横
+    ctx.moveTo(ta_x-2,ta_y-2);
     ctx.lineTo(ta_x+2,ta_y+2);
-     ctx.lineTo(ta_x-kousen_nagasa*0.6,ta_y+kousen_nagasa*0.6);
-     
-      ctx.closePath();  
+    ctx.lineTo(ta_x-kousen_nagasa*0.6,ta_y+kousen_nagasa*0.6);
+    ctx.closePath();  
       
-        ctx.moveTo(ta_x+2,ta_y-2);
-    
-    
+    //左上
+    ctx.moveTo(ta_x+2,ta_y-2);
     ctx.lineTo(ta_x-2,ta_y+2);
-     ctx.lineTo(ta_x+kousen_nagasa*1.8,ta_y+kousen_nagasa*1.8);
+    ctx.lineTo(ta_x+kousen_nagasa*1.8,ta_y+kousen_nagasa*1.8);
+    ctx.closePath();  
      
-      ctx.closePath();  
-     
-           ctx.moveTo(ta_x-2,ta_y+2);
-    
-    
+    //右下
+    ctx.moveTo(ta_x-2,ta_y+2);
     ctx.lineTo(ta_x+2,ta_y-2);
-     ctx.lineTo(ta_x-kousen_nagasa*1.8,ta_y-kousen_nagasa*1.8);
-     
-      ctx.closePath();  
+    ctx.lineTo(ta_x-kousen_nagasa*1.8,ta_y-kousen_nagasa*1.8);
+    ctx.closePath();  
       
+      
+      
+    //真上真下真右真左を短く明滅させ、夕刻には光線長を0にする
+    var kousen_nagasa_tate = Math.sin(kousen_nagasa) * 30;
+      
+    //真上
+    ctx.moveTo(ta_x-2,ta_y);
+    ctx.lineTo(ta_x+2,ta_y);
+    ctx.lineTo(ta_x,ta_y-kousen_nagasa_tate);
+    ctx.closePath();  
+     
+    //真下
+    ctx.moveTo(ta_x-2,ta_y);
+    ctx.lineTo(ta_x+2,ta_y);
+    ctx.lineTo(ta_x,ta_y+kousen_nagasa_tate);
+    ctx.closePath();  
+      
+      //真右
+    ctx.moveTo(ta_x,ta_y-2);
+    ctx.lineTo(ta_x,ta_y+2);
+    ctx.lineTo(ta_x+kousen_nagasa_tate,ta_y);
+    ctx.closePath();  
+     
+      //真左
+    ctx.moveTo(ta_x,ta_y-2);
+    ctx.lineTo(ta_x,ta_y+2);
+    ctx.lineTo(ta_x-kousen_nagasa_tate,ta_y);
+    ctx.closePath();  
+          
       
       
       
@@ -149,61 +199,12 @@ kousen_nagasa = kousen_nagasa / 450 ;
 
 		// グラデーションをfillStyleプロパティにセット
 		ctx.fillStyle = grad;  
-		
- 
+		 
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+       //光線描画
        ctx.stroke();
-              ctx.fill();
+       ctx.fill();
       
-	     /*
-
-		// グラデーション領域をセット
-		var grad  = ctx.createRadialGradient(ta_x,ta_y,1,ta_x,ta_y,40); //半径1の円から40の円の領域でグラデしろ
-		  
-		// グラデーション終点のオフセットと色をセット 
-		grad.addColorStop(0.3,'white');      // グラデの中心色。「白から」
-		  
-		var edgecolor1 = "rgba("+sora_colorR+", "+sora_colorG+", "+sora_colorB+",0.6)";// 「空色にグラデしろ」RGB値を指定するときは一旦変数を経由
-		grad.addColorStop(1,edgecolor1); 
-
-		// グラデーションをfillStyleプロパティにセット
-		ctx.fillStyle = grad;  
-		
-*/	
-		
-/*		
-//45°をラジアンに変換 
-var rad = 45 * Math.PI / 180;
-//右に45°回転する変換マトリックスを定義 
-ctx.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad), 0, 0 );
-// 図形を描画	  
-	  ctx.rect(ta_x, ta_y, 80, 5);
-	  
-*/
-	
-
-// このままだと、太陽軌道自体が画面左上に対して45度回転してしまう	
-
-	
-	
-
-	
-	
-	
-	
 	
   
 }//draw
@@ -259,17 +260,84 @@ function sora_iro()
 	*/
 
 	time_count = time_count + 1;
+	
+	
+
+	
 	//朝～午前
 	if( 1 <= time_count && time_count <= 236)
 	{   sora_colorR = sora_colorR - 1;}
 	  
 	//日中  
-	if( 237 <= time_count  && time_count <= 471)
-	{   sora_colorG = sora_colorG - 1;}
+	if( 237 <= time_count  && time_count <= 353)
+	{   sora_colorG = sora_colorG - 2;
+
+	}
+	
+	
+	
+
+	if( 354 <= time_count  && time_count <= 379)
+	{   sora_colorR = sora_colorR + 9;
+	     
+ 
+	}
+	
+	if( 380<= time_count  && time_count <= 437)
+	{   
+	    sora_colorB =  sora_colorB - 4; 
+	
+
+	}	
+	
+	if( 438<= time_count  && time_count <= 482)
+	{   
+	    sora_colorG =  sora_colorG + 4; 
+	
+
+	}	
+		
+	
+	
+	
+	if( 483 <= time_count  && time_count <= 515)
+	{   sora_colorR = 255;
+	     sora_colorG =  200;   
+	     sora_colorB =  20; 
+	}
+	
+		
+
+	console.log(time_count,sora_colorR,sora_colorG,sora_colorB);
 
 	//午後～夜
-	if( 472 <= time_count  && time_count <= 706)
-	{   sora_colorB = sora_colorB - 1;}
+	if( 516 <= time_count  && time_count <= 570)
+	{   sora_colorR = sora_colorR - 2;
+		     sora_colorG =  sora_colorG - 1; 
+		     
+	}
+	
+
+	if( 571 <= time_count  && time_count <= 695)
+	{   sora_colorR = sora_colorR - 1;
+		     sora_colorG =  sora_colorG - 1; 
+		     
+	}	
+	
+	if( 696 <= time_count  && time_count <= 697)
+	{   sora_colorR = 20;
+sora_colorG = 20;
+		 sora_colorB = 20;    
+	}		
+	
+	//夜～明け方  
+	if( 698 <= time_count  && time_count <= 706)
+	{    sora_colorR = sora_colorR + 1;
+	     sora_colorG = sora_colorG + 1;   
+	     sora_colorB = sora_colorB + 1; 
+	     }	  
+	  
+	  
 	  
 	//夜～明け方  
 	if( 707 <= time_count  && time_count <= 800)
@@ -280,9 +348,9 @@ function sora_iro()
 	     
 	//夜明け間際     
 	if( 801 <= time_count  && time_count <= 811)
-	{    sora_colorR = sora_colorR + 5;
-	     sora_colorG = sora_colorG +5;   
-	     sora_colorB = sora_colorB + 5; 
+	{    sora_colorR = sora_colorR + 4;
+	     sora_colorG = sora_colorG +4;   
+	     sora_colorB = sora_colorB + 4; 
 	     }
 	     
 	//朝に戻る     
@@ -380,13 +448,15 @@ function shoki_haichi()
 	var ele = document.getElementById("img_enkei");
 	enkei_haba = ele.width;
 	
+	
+	/*
 	//太陽を初期配置
 	var ele = document.getElementById("img_taiyou");
 	ele.style.position = 'absolute'; 
 	ele.style.left = '-100px'; 
 	ele.style.top  = '200px'; 
 
-	
+	*/
 	
 	
 
