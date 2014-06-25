@@ -19,7 +19,7 @@
 
 	var yoko_plms = new Array();
 	var yoko_block = new Array();	
-			
+	var tate_block = new Array();				
 			
 		
 var pls = new Array(400);  //始点終点間の距離400まで対応しますよ
@@ -140,14 +140,18 @@ function draw_taiyou() {
 	
 	var line_distance = 8;//1ブロック10pxとして目指すべき目標点の設定
 	
-pleats(line_distance);
+distance_to_pleats(line_distance);
+
+
+var tate = 5;
+
+pleatsnum_to_pleats(line_distance,tate);
+
 
 	
 	for(var i = 1; i <= 8; i++){
-	
-		for(var j = 1; j <= 4; j++){
-	console.log(pls[i][j]);
-	}
+		console.log(i,tate_block[i]);
+
 	}	
 
 	
@@ -160,7 +164,7 @@ pleats(line_distance);
 
 
 
-function pleats(line_distance)
+function distance_to_pleats(line_distance)
 {
 
 	
@@ -205,27 +209,139 @@ function pleats(line_distance)
 	} 
 	
 	
+	/*
+	
+	line_distance個のブロックがある
+	そこにtateを割り振りたい
+	
+	var block_ave = Math.floor(tate / line_distance ) を初期値として　
+	
+	for(var i = 1; i <= line_distance; i++)
+	{
+	tate_block[i] = block_ave;
+	}//for i
+	
+
+	
+	var amari = tate - ( block_ave * dis )が余り。
+	
+	for(var i = 1; i <= amari; i++)
+	{
+	
+	var randnum = 1 + Math.floor( Math.random() * (line_distance) );
+	
+	tate_block[randnum] = tate_block[randnum]+1;
+	}//for i
+	
+	
+	これで割り振りはできたが、下記のプリーツ生成は値を+1、+2,0の3通りだけ想定すれば
+	よかったのに対して、今回は
+	値が0から100とかまでなんでもありうる。
+	
+	よく考えたら、たかが4つの要素で、+7の要請にこたえられない？
+	
+		これは最大でdis-1の可能性がある
+	
+	これはもう、tate_pls[1]から順に+1ずつしていって、 tate -  (a　*dis)　=0になるまで+1する
+	
+	これでtate > disのときはいける
+	
+	tate < dis のとき
+	
+	例えば1，8のとき、上記だとまずa =0で埋めて、
+	余りが1
+	これをtate_block[1]に1いれて終わりなんだが、
+	これだと毎回必ずtate_block[1]に入ってしまう。
+	
+	余りは偏ってもいいから完全無作為ランダムで+1するか。
+	最大で+7とかの偏差は生まれるがべつにいい。
+	
+	
+	
+	
+
+　　　　その問題は、縦と横の長い方を先に処理するようにすれば
+　　　　ここにくるときには常に
+　　　　
+	tate < dis の状態であれば解決する。
+	
+	だとすると、block_aveは計算するまでもなく毎回必ず0か。
+	
+
+
+引数はline_distance,tate,tate_block[i]
+	
+	for(var i = 1; i <= line_distance; i++)
+	{
+	tate_block[i] = 0;
+	}//for i
+	
+	
+	for(var i = 1; i <= tate; i++)
+	{
+	
+	var randnum = 1 + Math.floor( Math.random() * (line_distance) );
+	
+	if (tate_block[randnum] < 2 ){   tate_block[randnum] = tate_block[randnum]+1;   }
+	else
+	{
+	for(var j = 1; j <= line_distance; j++){
+	
+	if(tate_block[j]  < 2 ){
+	tate_block[j] = tate_block[j] + 1;
+	break;
+	}
+	 
+	}//for j
+	}
+	
+
+	}//for i
+	
+	
+	この場合でもブロック数は+7がありえる
+	回避するには一度使用したrandnumをNGリストに入れねばならない
+	
+
+	
+	
+	
+	
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//1ブロックは4回の+-から出来ている。
 
-for ( var i = 1; i <= 8; i++)
+for ( var i = 1; i <= line_distance; i++)
 {
 	if(yoko_block[i] == 0){
-		for( var j= 1; j <= 4; j++ ){
 			var randnum0 = 1 + Math.floor( Math.random() * 19 );
+		for( var j= 1; j <= 4; j++ ){
 			pls[i][j]=pls0[randnum0][j];
 		}//for j
 	}//(yoko_block[i] == 0
 
 	if(yoko_block[i] == 1){
+			var randnum0 = 1 + Math.floor( Math.random() * 16 );	
 		for( var j= 1; j <= 4; j++ ){
-			var randnum0 = 1 + Math.floor( Math.random() * 16 );
 			pls[i][j]=pls1[randnum0][j];
 		}//for j
 	}//(yoko_block[i] == 1
 
 	if(yoko_block[i] == 2){
+				var randnum0 = 1 + Math.floor( Math.random() * 10 );
 		for( var j= 1; j <= 4; j++ ){
-			var randnum0 = 1 + Math.floor( Math.random() * 10 );
 			pls[i][j]=pls2[randnum0][j];
 		}//for j
 	}//(yoko_block[i] == 2
@@ -240,13 +356,46 @@ for ( var i = 1; i <= 8; i++)
 
 	
 	
-	}//function pleats
+}//function distance_to_pleats
 	
 
 
 
 
+function pleatsnum_to_pleats(line_distance,tate)
+{
 
+	for(var i = 1; i <= line_distance; i++)
+	{
+	tate_block[i] = 0;
+	}//for i
+	
+	
+	for(var i = 1; i <= tate; i++)
+	{
+	
+	var randnum = 1 + Math.floor( Math.random() * (line_distance) );
+	
+	if (tate_block[randnum] < 2 ){   tate_block[randnum] = tate_block[randnum]+1;   }
+	else
+	{
+	for(var j = 1; j <= line_distance; j++){
+	
+	if(tate_block[j]  < 2 ){
+	tate_block[j] = tate_block[j] + 1;
+	break;
+	}//if
+	 
+	}//for j
+	}//else
+	
+
+	}//for i
+
+//ここまででブロック割りはできた。プリーツ生成は横のときのを流用できる
+
+
+}//function pleatsnum_to_pleats
 
 
 
