@@ -23,7 +23,7 @@
 			
 		
 var pls = new Array(400);  //始点終点間の距離400まで対応しますよ
-for (var i=0; i<= 400; i++){
+for (var i=1; i<= 400; i++){
 pls[i] = new Array(5);
 }
 
@@ -140,28 +140,6 @@ function draw_taiyou() {
 	
 	var line_distance = 8;//1ブロック10pxとして目指すべき目標点の設定
 	
-pleats(line_distance);
-
-	
-	for(var i = 1; i <= 8; i++){
-	
-		for(var j = 1; j <= 4; j++){
-	console.log(pls[i][j]);
-	}
-	}	
-
-	
-	
-	
-	
-  
-}//draw
-
-
-
-
-function pleats(line_distance)
-{
 
 	
 	//配列初期化
@@ -237,29 +215,14 @@ for ( var i = 1; i <= 8; i++)
 //pls[line_distance][1..4]にプリーツが格納された
 	
 	
-
 	
 	
-	}//function pleats
 	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	
+	
+  
+}//draw
 
 
 
