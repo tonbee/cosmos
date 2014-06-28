@@ -128,6 +128,16 @@ function draw_taiyou() {
     return false;
   }
   
+  
+     /*画面をCLS */
+  var ctx = canvas.getContext('2d');
+  ctx.beginPath();
+  ctx.clearRect(0, 0, 640, 480);
+  ctx.stroke();
+    ctx.fill();
+  
+  
+  
   	var s_x = 200;//始点座標
 	var s_y = 100;
 	var e_x = 280;//終点座標
@@ -392,7 +402,7 @@ function test2()//メインループ
 
 
 
-draw_taiyou();
+	setInterval("draw_taiyou()",100);
 
 
 }//function メイン関数
