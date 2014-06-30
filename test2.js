@@ -16,6 +16,11 @@
 
 
 */
+
+var long_x = 0;
+var x_plus = -1;
+var y_plus =-1;
+
 var risan_degree = 1;
 	var long_distance = 0;
 	var short_distance = 0;
@@ -112,7 +117,29 @@ var pleats2 = [
 			
 			
 			
-			
+	  	var s_x1 = 200;//始点座標
+	var s_y1 = 220;
+	
+  	var s_x2 = 360;//始点座標
+	var s_y2 = 218;
+	
+	var s_x3 = 380;//始点座標
+	var s_y3 = 180;
+	
+	var s_x4 = 355;//始点座標
+	var s_y4 = 155;
+	
+	var s_x5 = 300;//始点座標
+	var s_y5 = 135;
+	
+	var s_x6 = 270;//始点座標
+	var s_y6 = 105;
+	
+	var s_x7 = 230;//始点座標
+	var s_y7 = 100;
+	
+	var s_x8 = 190;//始点座標
+	var s_y8 = 180;			
 			
 			
 			
@@ -159,15 +186,72 @@ function draw_taiyou1() {
 
  
   
-  	var s_x1 = 200;//始点座標
-	var s_y1 = 220;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	var e_x1 = 360;//終点座標
 	var e_y1 = 218;
 	
+	
 	risan_degree = 3;
-	risan(s_x1,s_y1,e_x1,e_y1);
+	
+	risan(s_x1,s_y1,s_x2,s_y2);
+	byouga_path(s_x1,s_y1);
+	
+	risan(s_x2,s_y2,s_x3,s_y3);
+	byouga_path(s_x2,s_y2);	
+
+  	risan(s_x3,s_y3,s_x4,s_y4);
+	byouga_path(s_x3,s_y3);	
 	
 	
+  	risan(s_x4,s_y4,s_x5,s_y5);
+	byouga_path(s_x4,s_y4);	
+		
+		
+  	risan(s_x5,s_y5,s_x6,s_y6);
+	byouga_path(s_x5,s_y5);	
+	
+	
+  	risan(s_x6,s_y6,s_x7,s_y7);
+	byouga_path(s_x6,s_y6);	
+	
+		
+  	risan(s_x7,s_y7,s_x8,s_y8);
+	byouga_path(s_x7,s_y7);	
+	
+  	risan(s_x8,s_y8,s_x1,s_y1);
+	byouga_path(s_x8,s_y8);			
+	
+  
+}//draw
+
+
+
+function byouga_path(s_x0,s_y0){
+
+
+  /* canvas要素のノードオブジェクト */
+  var canvas = document.getElementById('canvassample');
+  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
+  if ( ! canvas || ! canvas.getContext ) {
+    return false;
+  }
+  
+
+
+
 
 
 	//描画
@@ -182,316 +266,39 @@ function draw_taiyou1() {
   	
   	  	for(var j = 1; j<=4; j++){
   	  	
-  	  	e_x1 = s_x1 + ( long_pleats[i][j] * risan_degree );
-  	  	e_y1 = s_y1 + ( short_pleats[i][j] * risan_degree );
+  	  	if( long_x == 1 ){   
   	  	
+  	  	var x_temp = s_x0 + ( long_pleats[i][j] * risan_degree * x_plus);
+  	  	var y_temp = s_y0 + ( short_pleats[i][j] * risan_degree  * y_plus);
+  	  	}
+  	  	else
+  	  	{
+  	  	var x_temp = s_x0 + ( short_pleats[i][j] * risan_degree  * x_plus);
+  	  	var y_temp = s_y0 + ( long_pleats[i][j] * risan_degree * y_plus);
+  	  	
+  	  	}
   	  	
   	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x1,s_y1);
-	ctx.lineTo(e_x1,e_y1);
+	ctx.moveTo(s_x0,s_y0);
+	ctx.lineTo(x_temp,y_temp);
 	
-	s_x1 = e_x1;
-	s_y1 = e_y1;
+	s_x0 = x_temp;
+	s_y0 = y_temp;
   
 	ctx.stroke();	
   	  		
   	  	}//for j
   	}//for i
-  
-}//draw
-
-
-function draw_taiyou2() {
-  /* canvas要素のノードオブジェクト */
-  var canvas = document.getElementById('canvassample');
-  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
-  if ( ! canvas || ! canvas.getContext ) {
-    return false;
-  }
-  
-  
-
-  
-  
-  
-  	var s_x = 360;//始点座標
-	var s_y = 218;
-	var e_x = 380;//終点座標
-	var e_y = 180;
-	risan(s_x,s_y,e_x,e_y);
-	
-	
-
-
-	//描画
-	var ctx = canvas.getContext('2d');
-  	ctx.beginPath();
   	
   	
-
-  	  	
-    	
-  	for(var i = 1; i<=long_distance; i++){
   	
-  	  	for(var j = 1; j<=4; j++){
-  	  	
-  	  	s_x = s_x + short_pleats[i][j];
-  	  	s_y = s_y - long_pleats[i][j];
-  	  	
-  	  	
-  	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x,s_y);
-	ctx.lineTo(e_x,e_y);
-	ctx.closePath();  
-	ctx.stroke();	
-  	  		
-  	  	}//for j
-  	}//for i
-  
-}//draw
-
-
-
-function draw_taiyou3() {
-  /* canvas要素のノードオブジェクト */
-  var canvas = document.getElementById('canvassample');
-  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
-  if ( ! canvas || ! canvas.getContext ) {
-    return false;
-  }
-  
-
-  	var s_x = 380;//始点座標
-	var s_y = 180;
-	var e_x = 355;//終点座標
-	var e_y = 155;
-	risan(s_x,s_y,e_x,e_y);
-	
-
-	//描画
-	var ctx = canvas.getContext('2d');
-  	ctx.beginPath();
-	
-  	for(var i = 1; i<=long_distance; i++){
-  	
-  	  	for(var j = 1; j<=4; j++){
-  	  	
-  	  	s_x = s_x - long_pleats[i][j];
-  	  	s_y = s_y - short_pleats[i][j];
-  	  	
-  	  	
-  	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x,s_y);
-	ctx.lineTo(e_x,e_y);
-	ctx.closePath();  
-	ctx.stroke();	
-  	  		
-  	  	}//for j
-  	}//for i
-  
-}//draw
-
-
-
-function draw_taiyou4() {
-  /* canvas要素のノードオブジェクト */
-  var canvas = document.getElementById('canvassample');
-  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
-  if ( ! canvas || ! canvas.getContext ) {
-    return false;
-  }
-  
-
-  	var s_x = 355;//始点座標
-	var s_y = 155;
-	var e_x = 300;//終点座標
-	var e_y = 135;
-	risan(s_x,s_y,e_x,e_y);
-	
-
-	//描画
-	var ctx = canvas.getContext('2d');
-  	ctx.beginPath();
-	
-  	for(var i = 1; i<=long_distance; i++){
-  	
-  	  	for(var j = 1; j<=4; j++){
-  	  	
-  	  	s_x = s_x - long_pleats[i][j];
-  	  	s_y = s_y - short_pleats[i][j];
-  	  	
-  	  	
-  	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x,s_y);
-	ctx.lineTo(e_x,e_y);
-	ctx.closePath();  
-	ctx.stroke();	
-  	  		
-  	  	}//for j
-  	}//for i
-  
-}//draw
-
-
-
-function draw_taiyou5() {
-  /* canvas要素のノードオブジェクト */
-  var canvas = document.getElementById('canvassample');
-  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
-  if ( ! canvas || ! canvas.getContext ) {
-    return false;
-  }
-  
-
-  	var s_x = 300;//始点座標
-	var s_y = 135;
-	var e_x = 270;//終点座標
-	var e_y = 105;
-	risan(s_x,s_y,e_x,e_y);
-	
-
-	//描画
-	var ctx = canvas.getContext('2d');
-  	ctx.beginPath();
-	
-  	for(var i = 1; i<=long_distance; i++){
-  	
-  	  	for(var j = 1; j<=4; j++){
-  	  	
-  	  	s_x = s_x - long_pleats[i][j];
-  	  	s_y = s_y - short_pleats[i][j];
-  	  	
-  	  	
-  	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x,s_y);
-	ctx.lineTo(e_x,e_y);
-	ctx.closePath();  
-	ctx.stroke();	
-  	  		
-  	  	}//for j
-  	}//for i
-  
-}//draw
+  	}//function byouga_path
 
 
 
 
-function draw_taiyou6() {
-  /* canvas要素のノードオブジェクト */
-  var canvas = document.getElementById('canvassample');
-  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
-  if ( ! canvas || ! canvas.getContext ) {
-    return false;
-  }
-  
-  	var s_x = 270;//始点座標
-	var s_y = 105;
-	var e_x = 230;//終点座標
-	var e_y = 100;
-	risan(s_x,s_y,e_x,e_y);
-	
-
-	//描画
-	var ctx = canvas.getContext('2d');
-  	ctx.beginPath();
-	
-  	for(var i = 1; i<=long_distance; i++){
-  	
-  	  	for(var j = 1; j<=4; j++){
-  	  	
-  	  	s_x = s_x - long_pleats[i][j];
-  	  	s_y = s_y - short_pleats[i][j];
-  	  	
-  	  	
-  	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x,s_y);
-	ctx.lineTo(e_x,e_y);
-	ctx.closePath();  
-	ctx.stroke();	
-  	  		
-  	  	}//for j
-  	}//for i
-  
-}//draw
 
 
-
-
-function draw_taiyou7() {
-  /* canvas要素のノードオブジェクト */
-  var canvas = document.getElementById('canvassample');
-  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
-  if ( ! canvas || ! canvas.getContext ) {
-    return false;
-  }
-  
-  	var s_x = 230;//始点座標
-	var s_y = 100;
-	var e_x = 190;//終点座標
-	var e_y = 180;
-	risan(s_x,s_y,e_x,e_y);
-	
-
-	//描画
-	var ctx = canvas.getContext('2d');
-  	ctx.beginPath();
-	
-  	for(var i = 1; i<=long_distance; i++){
-  	
-  	  	for(var j = 1; j<=4; j++){
-  	  	
-  	  	s_x = s_x - short_pleats[i][j];
-  	  	s_y = s_y + long_pleats[i][j];
-  	  	
-  	  	
-  	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x,s_y);
-	ctx.lineTo(e_x,e_y);
-	ctx.closePath();  
-	ctx.stroke();	
-  	  		
-  	  	}//for j
-  	}//for i
-  
-}//draw
-
-function draw_taiyou8() {
-  /* canvas要素のノードオブジェクト */
-  var canvas = document.getElementById('canvassample');
-  /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
-  if ( ! canvas || ! canvas.getContext ) {
-    return false;
-  }
-  
-  	var s_x = 190;//始点座標
-	var s_y = 180;
-	var e_x = 200;//終点座標
-	var e_y = 220;
-	risan(s_x,s_y,e_x,e_y);
-	
-
-	//描画
-	var ctx = canvas.getContext('2d');
-  	ctx.beginPath();
-	
-  	for(var i = 1; i<=long_distance; i++){
-  	
-  	  	for(var j = 1; j<=4; j++){
-  	  	
-  	  	s_x = s_x + short_pleats[i][j];
-  	  	s_y = s_y + long_pleats[i][j];
-  	  	
-  	  	
-  	  		ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-	ctx.moveTo(s_x,s_y);
-	ctx.lineTo(e_x,e_y);
-	ctx.closePath();  
-	ctx.stroke();	
-  	  		
-  	  	}//for j
-  	}//for i
-  
-}//draw
 
 
 //以上、CANVAS記述
@@ -696,6 +503,8 @@ function test2()//メインループ
 
 
 	setInterval("draw_taiyou1()",100);
+	
+	/*
 	setInterval("draw_taiyou2()",100);
 		setInterval("draw_taiyou3()",100);
 			setInterval("draw_taiyou4()",100);
@@ -705,7 +514,7 @@ function test2()//メインループ
 		setInterval("draw_taiyou7()",100);
 			setInterval("draw_taiyou8()",100);
 					
-		
+		*/
 		
 
 
@@ -721,12 +530,21 @@ function risan(s_x,s_y,e_x,e_y)
 	var x_distance = Math.abs(e_x - s_x);
 	var y_distance = Math.abs(e_y - s_y);
 	
+	if (e_x - s_x >= 0){x_plus = 1;}else{x_plus = -1;}
+	if (e_y - s_y >= 0){y_plus = 1;}else{y_plus = -1;}
+		
+	
+		long_x =0;
 	if( x_distance >= y_distance ){
 	long_distance = x_distance;//目標への長辺距離
+	
+	long_x = 1;
+
 	short_distance = y_distance;//目標への短辺距離
 	}
 	else{
 	long_distance = y_distance;
+	
 	short_distance = x_distance;	
 	}
 	
