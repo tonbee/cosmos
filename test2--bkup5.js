@@ -17,11 +17,6 @@
 
 */
 
-
-
-var fill_num = 0;
-	var fill_x = new Array();
-	var fill_y = new Array();
 var long_x = 0;
 var x_plus = -1;
 var y_plus =-1;
@@ -162,15 +157,16 @@ function draw_taiyou1() {
   }
   
     
-  /*画面をCLS */
+  
+     /*画面をCLS */
   var ctx = canvas.getContext('2d');
   ctx.beginPath();
   ctx.clearRect(0, 0, 640, 480);
   ctx.stroke();
-  ctx.fill();
+    ctx.fill();
     
     	
-	fill_num = 0;
+	
 	risan_degree = 3;
 	
 	risan(s_x1,s_y1,s_x2,s_y2);
@@ -199,18 +195,16 @@ function draw_taiyou1() {
 	byouga_path(s_x7,s_y7);	
 	
   	risan(s_x8,s_y8,s_x1,s_y1);
-	byouga_path(s_x8,s_y8);		
-	
-	
-	byouga_fill();	
+	byouga_path(s_x8,s_y8);			
 	
   
 }//draw
 
 
 
-function byouga_fill()
-{
+function byouga_path(s_x0,s_y0){
+
+
   /* canvas要素のノードオブジェクト */
   var canvas = document.getElementById('canvassample');
   /* canvas要素の存在チェックとCanvas未対応ブラウザの対処 */
@@ -223,42 +217,6 @@ function byouga_fill()
 	var ctx = canvas.getContext('2d');
   	ctx.beginPath();
   	
-  	ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
-  	
-
-  	
-	ctx.moveTo(s_x1,s_y1);
-	for ( var i = 1; i <= fill_num; i++){
-	
-	 	console.log(i,fill_x[i],fill_y[i]);
-	 	
-		ctx.lineTo(fill_x[i],fill_y[i]);
-	}//for i
-
-  		ctx.closePath();  
-  	
-	ctx.stroke();	
-	ctx.fill();
-	
-
-
-
-}//function byouga_fill
-
-
-
-
-
-
-
-
-
-function byouga_path(s_x0,s_y0){
-
-
-
-
-	
 	
   	for(var i = 1; i<=long_distance; i++){
   	
@@ -275,17 +233,14 @@ function byouga_path(s_x0,s_y0){
 	  	  	var y_temp = s_y0 + ( long_pleats[i][j] * risan_degree * y_plus);
 	  	  	}
   	  	
-
-			
-			fill_num = fill_num + 1;
-			fill_x[fill_num] = x_temp;
-			fill_y[fill_num] = y_temp;
-		
+		  	ctx.strokeStyle = 'rgba(0, 0, 0,1)'; 
+			ctx.moveTo(s_x0,s_y0);
+			ctx.lineTo(x_temp,y_temp);
 			
 			s_x0 = x_temp;
 			s_y0 = y_temp;
 		  
-	
+			ctx.stroke();	
 			   
   	  		
   	  	}//for j
