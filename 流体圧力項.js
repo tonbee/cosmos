@@ -49,7 +49,17 @@ st_y[3] = 180;
  st_x[8] = 190;//雲の格子点8
  st_y[8] = 180;			
 			
-			
+  
+  //8点に重力を設定する
+juryoku[1] = 10000;
+juryoku[2] = 10000;
+juryoku[3] = 10000; 
+juryoku[4] = 10000; 
+juryoku[5] = 10000;
+juryoku[6] = 10000;
+juryoku[7] = 10000; 
+juryoku[8] = 10000;   	
+				
 			
 			
 
@@ -73,6 +83,13 @@ function draw_taiyou1() {
   ctx.fill();
   
   
+
+  
+  
+  
+  
+  
+  
   for(var i = 1; i <= 8; i++){
   	ctx.beginPath();
   	
@@ -88,16 +105,9 @@ function draw_taiyou1() {
 	  
 	  
 	  
-//8点に重力を設定する
-juryoku[1] = 10000;
-juryoku[2] = 10000;
- juryoku[3] = 10000; 
-   juryoku[4] = 10000; 
-  juryoku[5] = 10000;
-juryoku[6] = 10000;
- juryoku[7] = 10000; 
-   juryoku[8] = 10000;   	
-	
+for (var m = 1;m<=8;m++){
+
+
   
   //重力は距離の2乗に反比例する
   
@@ -108,20 +118,25 @@ var juto1 = new Array();
   var max_ju = 0;
   var max_ju_num = 0 ;
   
-  for (var j = 1; j<=7;j++)
+  for (var j = 1; j<=8;j++)
   {
     //格子点1と格子点2～8の距離の2乗
-    var kyori2 = ((st_x[1] - st_x[j+1]) * (st_x[1] - st_x[j+1])) + ((st_y[1] - st_y[j+1]) * (st_y[1] - st_y[j+1]));
+    
+    if(m == j){}else{
+    
+    var kyori2 = ((st_x[m] - st_x[j]) * (st_x[m] - st_x[j])) + ((st_y[m] - st_y[j]) * (st_y[m] - st_y[j]));
    
    //格子点2～8から格子点1へ向かう重力
-     juto1[j+1] = (1/kyori2) * juryoku[j+1];
+     juto1[j] = (1/kyori2) * juryoku[j];
     
-   if(max_ju < juto1[j+1] ){  
+   if(max_ju < juto1[j] ){  
    
-    max_ju = juto1[j+1];//max_juが更新されたら上書きする
-    max_ju_num = j + 1;//そのときの格子番号を保存
+    max_ju = juto1[j];//max_juが更新されたら上書きする
+    max_ju_num = j ;//そのときの格子番号を保存
     
     }
+    
+    }//else
   
   }//for j
   
@@ -137,7 +152,7 @@ var juto1 = new Array();
  
 
   
-  var a = ((st_y[max_ju_num] - st_y[1]) / (st_x[max_ju_num] - st_x[1])) * ((st_y[max_ju_num] - st_y[1]) / (st_x[max_ju_num] - st_x[1]));
+  var a = ((st_y[max_ju_num] - st_y[m]) / (st_x[max_ju_num] - st_x[m])) * ((st_y[max_ju_num] - st_y[m]) / (st_x[max_ju_num] - st_x[m]));
   
   
   a = a + 1;
@@ -148,20 +163,39 @@ var juto1 = new Array();
   
   x1 = Math.floor(x1);
   
-  var y1 = ((st_y[max_ju_num] - st_y[1]) / (st_x[max_ju_num] - st_x[1])) * x1;
+  var y1 = ((st_y[max_ju_num] - st_y[m]) / (st_x[max_ju_num] - st_x[m])) * x1;
   
   y1 = Math.floor(y1);
   
 
-  //カンバスの場合、左上が第一象限になることに注意
+
+
+
+var kyori2 = ((st_x[m] - st_x[max_ju_num]) * (st_x[m] - st_x[max_ju_num])) + ((st_y[m] - st_y[max_ju_num]) * (st_y[m] - st_y[max_ju_num]));
+
+  var max_ju2 = max_ju * max_ju;
   
-  st_x[1] = st_x[1] - x1;
+  if( kyori2 <= max_ju2){
   
-st_y[1] = st_y[1] - y1;
+   st_x[m] = st_x[max_ju_num] + 1;
+  st_y[m] = st_y[max_ju_num] + 1;
+  }
+  else
+  {
   
-  console.log(max_ju_num,max_ju,st_x[1],st_y[1],x1,y1);
+    //カンバスの場合、左上が第一象限になることに注意
+  
+  st_x[m] = st_x[m] - x1;
+  
+st_y[m] = st_y[m] - y1;
+  
+  }
+
+
+
   
   
+}//for m
   
   
 }//draw
