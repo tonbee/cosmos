@@ -52,13 +52,13 @@ st_y[8] = 180;
   
 //8点に重力を設定する
 juryoku[1] = 10000;
-juryoku[2] = 100000;
+juryoku[2] = 10000;
 juryoku[3] = 10000; 
-juryoku[4] = 6000; 
+juryoku[4] = 10000; 
 juryoku[5] = 10000;
-juryoku[6] = 6000;
+juryoku[6] = 10000;
 juryoku[7] = 10000; 
-juryoku[8] = 50000;   	
+juryoku[8] = 10000;   	
 				
 			
 			
@@ -161,8 +161,8 @@ var kyori2 = ((st_x[m] - st_x[max_ju_num]) * (st_x[m] - st_x[max_ju_num])) + ((s
   
   if( kyori2 <= max_ju2){
   //このムーブは対称点と衝突するので、対称点の向こうには動かすな
-  st_x[m] = st_x[max_ju_num] ;
-  st_y[m] = st_y[max_ju_num] ;
+  st_x[m] = st_x[max_ju_num] + 1;
+  st_y[m] = st_y[max_ju_num] + 1;
   }
   else
   {
