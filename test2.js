@@ -34,8 +34,8 @@ st_y[2] = 218;
 st_x[3] = 380;//雲の格子点3
 st_y[3] = 180;
 	
-st_x[4] = 355;//雲の格子点4
-st_y[4] = 155;
+st_x[4] = 356;//雲の格子点4
+st_y[4] = 154;
 	
 st_x[5] = 300;//雲の格子点5
 st_y[5] = 135;
@@ -51,10 +51,10 @@ st_y[8] = 180;
 			
   
 //8点に重力を設定する
-juryoku[1] = 10000;
+juryoku[1] = 70000;
 juryoku[2] = 100000;
 juryoku[3] = 10000; 
-juryoku[4] = 6000; 
+juryoku[4] = 8000; 
 juryoku[5] = 10000;
 juryoku[6] = 6000;
 juryoku[7] = 10000; 
@@ -168,15 +168,34 @@ var kyori2 = ((st_x[m] - st_x[max_ju_num]) * (st_x[m] - st_x[max_ju_num])) + ((s
   {
 　//カンバスの場合、左上が第一象限になることに注意
   
+  if ( isNaN ( x1 ) ) {x1 = 1;}
+    if ( isNaN ( y1 ) ) {y1 = 1;}
+  
   st_x[m] = st_x[m] - x1;
   st_y[m] = st_y[m] - y1;
+  
+  
   
   }
 
 
 
-  
-  
+
+if(360 < st_x[m]){var bindto2 = 2.5;}else{var bindto2 = -2.5;}
+
+console.log(bindto2,st_x[m],st_y[m],m);
+
+st_x[m] = st_x[m] - bindto2;
+
+
+if(218 < st_y[m]){ bindto2 = 2;}else{ bindto2 = -2;}
+
+st_y[m] = st_y[m] - bindto2;
+
+
+
+
+
 }//for m
   
   
