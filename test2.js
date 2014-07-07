@@ -54,10 +54,10 @@ st_y[8] = 180;
 juryoku[1] = 70000;
 juryoku[2] = 100000;
 juryoku[3] = 10000; 
-juryoku[4] = 8000; 
-juryoku[5] = 10000;
-juryoku[6] = 6000;
-juryoku[7] = 10000; 
+juryoku[4] = 10000; 
+juryoku[5] = 3000;
+juryoku[6] = 8000;
+juryoku[7] = 8000; 
 juryoku[8] = 50000;   	
 				
 			
@@ -179,18 +179,22 @@ var kyori2 = ((st_x[m] - st_x[max_ju_num]) * (st_x[m] - st_x[max_ju_num])) + ((s
   }
 
 
+//宇宙項　360，218の点に向かって収束する
 
+if(st_x[2] <= st_x[m]){var bindto2 = 2.5;}else{var bindto2 = -2.5;}
 
-if(360 < st_x[m]){var bindto2 = 2.5;}else{var bindto2 = -2.5;}
+if(m == 2){ bindto2 = 0;}
 
 console.log(bindto2,st_x[m],st_y[m],m);
 
 st_x[m] = st_x[m] - bindto2;
 
 
-if(218 < st_y[m]){ bindto2 = 2;}else{ bindto2 = -2;}
-
+if(st_y[2] <= st_y[m]){ bindto2 = 2;}else{ bindto2 = -2;}
+if(m == 2){ bindto2 = 0;}
 st_y[m] = st_y[m] - bindto2;
+
+
 
 
 
