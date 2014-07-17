@@ -22,15 +22,6 @@ var st_x = new Array();
 var st_y = new Array();
 
 var juryoku = new Array();	
-var delete_num = new Array();
-delete_num[1] = 0;
-delete_num[2] = 0;
-delete_num[3] = 0;
-delete_num[4] = 0;
-delete_num[5] = 0;
-delete_num[6] = 0;
-delete_num[7] = 0;
-delete_num[8] = 0;
 			
 			
 			
@@ -96,7 +87,16 @@ function draw_taiyou1() {
   
   
   
-
+  
+  //画面に8点を描画。このst_x[i], st_y[i]を操作する
+  
+  for(var i = 1; i <= 8; i++){
+  	ctx.beginPath();
+  	ctx.arc(st_x[i], st_y[i], 5, 0, Math.PI*2, false);
+  	ctx.closePath(); 
+	ctx.stroke();
+	  
+	  }//for i
 	  
 	  
 	  
@@ -179,70 +179,28 @@ var kyori2 = ((st_x[m] - st_x[max_ju_num]) * (st_x[m] - st_x[max_ju_num])) + ((s
   }
 
 
-//宇宙項　st_x[2]，st_y[2]の点に向かって収束する
+//宇宙項　360，218の点に向かって収束する
 
 if(st_x[2] <= st_x[m]){var bindto2 = 2.5;}else{var bindto2 = -2.5;}
 
 if(m == 2){ bindto2 = 0;}
 
+console.log(bindto2,st_x[m],st_y[m],m);
+
 st_x[m] = st_x[m] - bindto2;
+
 
 if(st_y[2] <= st_y[m]){ bindto2 = 2;}else{ bindto2 = -2;}
 if(m == 2){ bindto2 = 0;}
 st_y[m] = st_y[m] - bindto2;
 
 
-//消失
-//重なった点は消失し、最終的に全部消える
-
- /*
- 
- 方針
- 消失する格子点をデリートナンバーdelete_num[i]に入れる
- 描画部分で、デリートナンバーを除く格子点を描画する
- 
- 
 
 
-*/
 
 
 
 }//for m
-  
-  
-   //画面に8点を描画。
-  
-  for(var i = 1; i <= 8; i++){
-  
-	  if(delete_num[i] == 1){}
-	  else{
-	  
-	  
-	  	ctx.beginPath();
-	  	ctx.arc(st_x[i], st_y[i], 5, 0, Math.PI*2, false);
-	  	ctx.closePath(); 
-		ctx.stroke();
-		  
-
-		  
-	   }//else
-   
-   }//for i
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
 }//draw
