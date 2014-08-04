@@ -22,15 +22,7 @@ var st_x = new Array();
 var st_y = new Array();
 
 var juryoku = new Array();	
-var delete_num = new Array();
-delete_num[1] = 0;
-delete_num[2] = 0;
-delete_num[3] = 0;
-delete_num[4] = 0;
-delete_num[5] = 0;
-delete_num[6] = 0;
-delete_num[7] = 0;
-delete_num[8] = 0;
+
 			
 			
 			
@@ -192,30 +184,23 @@ if(m == 2){ bindto2 = 0;}
 st_y[m] = st_y[m] - bindto2;
 
 
-//消失
-//重なった点は消失し、最終的に全部消える
-
- /*
- 
- 方針
- 消失する格子点をデリートナンバーdelete_num[i]に入れる
- 描画部分で、デリートナンバーを除く格子点を描画する
- 
- 
 
 
-*/
 
 
 
 }//for m
   
   
+  //消失
+　//8点が一箇所に集まったとき、消える
+　 var shousitu_y = ((st_y[1] + st_y[2] + st_y[3] + st_y[4] + st_y[5] + st_y[6] + st_y[7] + st_y[8]) / 8) - st_y[1] ;
+  
    //画面に8点を描画。
   
   for(var i = 1; i <= 8; i++){
   
-	  if(delete_num[i] == 1){}
+	  if(shousitu_y > -1 && shousitu_y < 1){}
 	  else{
 	  
 	  
